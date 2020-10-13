@@ -1,0 +1,3 @@
+# Project exclude paths
+/springcloud-k8s-customer/target/
+/springcloud-k8s-producer/target/

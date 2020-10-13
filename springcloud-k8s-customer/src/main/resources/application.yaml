@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: customer-service
+  cloud:
+    kubernetes:
+      config:
+        sources:
+          - name: ${spring.application.name}
+            namespace: default
+      reload:
+        enabled: true
+        mode: event
+      discovery:
+        all-namespaces: true
+server:
+  port: 8081
+
+management:
+  endpoint:
+    restart:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: restart

@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: producer-service
+  labels:
+    app.kubernetes.io/name: producer-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8082
+      targetPort: 8082
+      nodePort: 8082
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: producer-service
+
+---
+apiVersion: apps/v1producer-service
+kind: Deployment
+metadata:
+  name: producer-service
+  labels:
+    app.kubernetes.io/name: producer-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: producer-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: producer-service
+        app.kubernetes.io/instance: sad-markhor
+    spec:
+      containers:
+        - name: producer-service
+          image: "192.168.0.22:5000/spring-cloud-k8s-producer:1.0"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
